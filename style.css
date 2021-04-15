@@ -1,0 +1,84 @@
+@font-face {
+  font-family: "digital";
+  src: url("fonts/digital-7.ttf");
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  width: 100%;
+  height: 1080px;
+  background-color: #006266;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body .calculator-container {
+  width: 369px;
+  border: solid #57606f;
+  padding: 5px;
+  box-shadow: 5px 5px 10px 5px #33d9b2;
+  background-color: black;
+}
+body .calculator-container .calculator-header {
+  font-family: "digital", sans-serif;
+}
+body .calculator-container .calculator-header .input {
+  min-height: 40px;
+  text-align: right;
+  font-size: 29px;
+  padding: 7px 0;
+  color: whitesmoke;
+}
+body .calculator-container .calculator-header .output {
+  text-align: right;
+  font-size: 20px;
+  padding: 5px 0;
+  color: orange;
+}
+body .calculator-container .calculator-body {
+  background-color: wheat;
+}
+body .calculator-container .calculator-body ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+body .calculator-container .calculator-body ul .button button {
+  width: 88px;
+  height: 72px;
+  cursor: default;
+  outline: 2px solid black;
+  border: none;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 20px;
+  color: whitesmoke;
+  background-color: #4d4d4d;
+}
+body .calculator-container .calculator-body ul .button button:hover {
+  color: black;
+  outline: 2px solid #858585ff;
+}
+body .calculator-container .calculator-body ul #clear, body .calculator-container .calculator-body ul #zero {
+  width: 176px;
+}
+body .calculator-container .calculator-body ul #clear {
+  background-color: #ac3939ff;
+}
+body .calculator-container .calculator-body ul #equals {
+  position: absolute;
+  height: 144px;
+  background-color: #004466ff;
+}
+body .calculator-container .calculator-body ul #divide, body .calculator-container .calculator-body ul #multiply, body .calculator-container .calculator-body ul #subtract, body .calculator-container .calculator-body ul #add {
+  background-color: #666666ff;
+}
+
+/*# sourceMappingURL=style.css.map */
