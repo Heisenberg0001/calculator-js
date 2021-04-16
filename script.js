@@ -5,14 +5,18 @@ const outputDiv = document.getElementsByClassName('output')[0];
 const dot = document.getElementById('decimal');
 const zero = document.getElementById('zero');
 const equals = document.getElementById('equals');
+const subtractBtn = document.getElementById('subtract');
 
 let input = '';
 let output = '';
 let tempNumber = '';
 let result = [];
 let pushOrNot = true;
+let makeNegative = false;
 
-
+function isFloat(n){
+    return Number(n) === n && n % 1 !== 0;
+}
 function setKeyListeners() {
     for (let i = 0; i < buttons.length; i++) {
         if ( buttons[i].id === 'clear') {
@@ -43,23 +47,32 @@ function clear() {
     enableButton( dot,true );
     enableButton( equals, true );
 }
+function pushToResult() {
+    if ( makeNegative ) {
+        result.push(-Math.abs(Number(tempNumber)));
+    } else {
+        result.push(Number(tempNumber));
+    }
+    makeNegative = false;
+}
 function calculate() {
-
     let index = 0;
 
-    result.push(Number(tempNumber));
+    pushToResult();
+
     tempNumber = '';
 
+    debugger;
     while ( result.length > 1 ) {
 
-        if ( result.includes("x") ) {
-            index = result.indexOf("x");
-            result[index - 1] = multiply(result[index - 1], result[index + 1]);
-            result.splice(index, 2);
-        }
-        else if ( result.includes("/") ) {
+        if ( result.includes("/") ) {
             index = result.indexOf("/");
             result[index - 1] = divide(result[index - 1], result[index + 1]);
+            result.splice(index, 2);
+        }
+        else if ( result.includes("x") ) {
+            index = result.indexOf("x");
+            result[index - 1] = multiply(result[index - 1], result[index + 1]);
             result.splice(index, 2);
         }
         else if ( result.includes("-") ) {
@@ -82,22 +95,26 @@ function calculate() {
     enableButton( equals, false );
 }
 function add( a, b ) {
-    return a + b;
+    a = a + b;
+    return isFloat(a) ? parseFloat(a.toFixed(4)) : a;
 }
 function subtract( a, b ) {
-    return a - b;
+    a = a - b;
+    return isFloat(a) ? parseFloat(a.toFixed(4))  : a;
 }
 function multiply( a, b ) {
-    return a * b;
+    a = a * b;
+    return isFloat(a) ? parseFloat(a.toFixed(4))  : a;
 }
 function divide( a, b ) {
-    return a / b;
+    a = a / b;
+    return isFloat(a) ? parseFloat(a.toFixed(4))  : a;
 }
 function setInput( event ) {
     enableButton( equals, true );
 
     if ( /=/.test(output) ) {
-        debugger;
+
         output = result[0] + event.target.innerHTML;
         input = event.target.innerHTML;
         setInnerHTML(input, output);
@@ -105,17 +122,23 @@ function setInput( event ) {
     } else {
 
         if ( pushOrNot ) {
-            result.push(Number(tempNumber));
+            pushToResult();
             pushOrNot = false;
         }
 
-        if (/[-+/x]$/.test(output)) {
+        if (/-$/.test(output) && event.target.innerHTML === '-' ) {
+            output += event.target.innerHTML;
+            makeNegative = true;
+            enableButton( subtractBtn, false );
+        }
+        else if (/[-+/x]$/.test(output)) {
             output = output.split('');
             output[output.length - 1] = event.target.innerHTML;
             input = event.target.innerHTML;
             output = output.join('');
 
             result[result.length - 1] = event.target.innerHTML;
+            console.log(result);
         } else {
             input = event.target.innerHTML;
             output += event.target.innerHTML;
@@ -128,6 +151,8 @@ function setInput( event ) {
     enableButton(dot, true);
 }
 function concatInput( event ) {
+
+    enableButton( subtractBtn, true );
 
     if ( /=/.test(output) ) {
         clear();
